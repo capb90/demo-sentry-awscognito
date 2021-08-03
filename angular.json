@@ -1,0 +1,154 @@
+{
+  "version": 1,
+  "projects": {
+    "demo-amplify": {
+      "projectType": "application",
+      "root": "apps/demo-amplify",
+      "sourceRoot": "apps/demo-amplify/src",
+      "prefix": "amplify-app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/demo-amplify",
+            "index": "apps/demo-amplify/src/index.html",
+            "main": "apps/demo-amplify/src/main.ts",
+            "polyfills": "apps/demo-amplify/src/polyfills.ts",
+            "tsConfig": "apps/demo-amplify/tsconfig.app.json",
+            "assets": [
+              "apps/demo-amplify/src/favicon.ico",
+              "apps/demo-amplify/src/assets"
+            ],
+            "styles": ["apps/demo-amplify/src/styles.css"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/demo-amplify/src/environments/environment.ts",
+                  "with": "apps/demo-amplify/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "demo-amplify:build:production"
+            },
+            "development": {
+              "browserTarget": "demo-amplify:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "demo-amplify:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/demo-amplify/src/**/*.ts",
+              "apps/demo-amplify/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/demo-amplify"],
+          "options": {
+            "jestConfig": "apps/demo-amplify/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "demo-amplify-e2e": {
+      "root": "apps/demo-amplify-e2e",
+      "sourceRoot": "apps/demo-amplify-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/demo-amplify-e2e/cypress.json",
+            "tsConfig": "apps/demo-amplify-e2e/tsconfig.e2e.json",
+            "devServerTarget": "demo-amplify:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "demo-amplify:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/demo-amplify-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "style": "css",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "css",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "css"
+    }
+  },
+  "defaultProject": "demo-amplify"
+}
