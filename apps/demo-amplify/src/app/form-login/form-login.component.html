@@ -1,0 +1,32 @@
+<form
+  name="signupForm"
+  [formGroup]="loginform"
+  novalidate
+  (ngSubmit)="loginform.valid && submit()"
+>
+  <div class="p-field">
+    <label for="username">username:</label>
+    <br />
+    <input id="username" formControlName="username" type="text" pInputText required />
+  </div>
+  <div class="p-field">
+    <label for="password">pww:</label>
+    <br />
+    <input
+      id="password"
+      formControlName="password"
+      type="password"
+      pInputText
+      required
+    />
+  </div>
+
+  <br />
+  <div class="p-grid">
+    <div class="p-lg-4 p-col-12">
+      <button type="submit" class="p-mr-4 p-mb-4" [disabled]="!loginform.valid">
+        login
+      </button>
+    </div>
+  </div>
+</form>
