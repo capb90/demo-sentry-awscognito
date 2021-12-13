@@ -40,6 +40,7 @@
     "@aws-amplify/ui-angular": "^1.0.35",
     "@nrwl/angular": "12.6.3",
     "@sentry/angular": "^6.16.0",
+    "@sentry/cli": "^1.71.0",
     "@sentry/tracing": "^6.16.0",
     "aws-amplify": "^4.3.8",
     "rxjs": "~6.6.0",

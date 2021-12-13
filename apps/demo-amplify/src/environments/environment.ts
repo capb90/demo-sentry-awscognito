@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  release:'',
   ampliyConfig: {
     aws_project_region: 'us-east-1',
     aws_cognito_region: 'us-east-1',
