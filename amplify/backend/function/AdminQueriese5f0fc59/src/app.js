@@ -27,6 +27,7 @@ const {
   listGroupsForUser,
   listUsersInGroup,
   signUserOut,
+  updateUserAttributes
 } = require('./cognitoActions');
 
 const app = express();
@@ -254,6 +255,23 @@ app.post('/signUserOut', async (req, res, next) => {
 
   try {
     const response = await signUserOut(req.body.username);
+    res.status(200).json(response);
+  } catch (err) {
+    next(err);
+  }
+});
+
+
+app.post('/updateUserAttributes', async (req, res, next) => {
+  console.log("🚀 ~ app.post ~ req", req)
+  if (!req.body.username) {
+    const err = new Error('username is required');
+    err.statusCode = 400;
+    return next(err);
+  }
+
+  try {
+    const response = await updateUserAttributes(req.body.username,req.body.userAttributes);
     res.status(200).json(response);
   } catch (err) {
     next(err);

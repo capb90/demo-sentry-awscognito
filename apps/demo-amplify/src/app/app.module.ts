@@ -1,17 +1,22 @@
-import { APP_INITIALIZER, enableProdMode, ErrorHandler,NgModule } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  enableProdMode,
+  ErrorHandler,
+  NgModule,
+} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 
-import * as Sentry from "@sentry/angular";
-import { Integrations } from "@sentry/tracing";
+import * as Sentry from '@sentry/angular';
+import { Integrations } from '@sentry/tracing';
 
 Sentry.init({
-  dsn: "https://54156359a5aa487998a46d2d45001b39@o1087700.ingest.sentry.io/6101307",
-  release:environment.release,
+  dsn: 'https://54156359a5aa487998a46d2d45001b39@o1087700.ingest.sentry.io/6101307',
+  release: environment.release,
   integrations: [
     new Integrations.BrowserTracing({
-      tracingOrigins: ["localhost", "https://yourserver.io/api"],
+      tracingOrigins: ['localhost', 'https://yourserver.io/api'],
       routingInstrumentation: Sentry.routingInstrumentation,
     }),
   ],
@@ -33,11 +38,38 @@ import { AppRoutingModule } from './app-routing.module';
 import { Router } from '@angular/router';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { environment } from '../environments/environment';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { AuthModule } from '@amplify-app/auth';
 
 
 @NgModule({
-  declarations: [AppComponent, FormRegisterComponent, FormLoginComponent, SharedComponent],
-  imports: [BrowserModule, AmplifyUIAngularModule, ReactiveFormsModule, AppRoutingModule],
+  declarations: [
+    AppComponent,
+    FormRegisterComponent,
+    FormLoginComponent,
+    SharedComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AmplifyUIAngularModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    AuthModule,
+    StoreModule.forRoot(
+      {},
+      {
+        metaReducers: !environment.production ? [] : [],
+        runtimeChecks: {
+          strictActionImmutability: true,
+          strictStateImmutability: true,
+        },
+      }
+    ),
+    EffectsModule.forRoot([]),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+  ],
   providers: [
     {
       provide: ErrorHandler,

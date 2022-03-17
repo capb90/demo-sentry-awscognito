@@ -244,6 +244,30 @@ async function signUserOut(username) {
   }
 }
 
+
+async function updateUserAttributes(username,userAttributes) {
+  console.log("🚀 ~ updateUserAttributes ~ userAttributes", userAttributes)
+  console.log("🚀 ~ updateUserAttributes ~ username", username)
+  const params = {
+    UserPoolId: userPoolId,
+    Username: username,
+    UserAttributes:userAttributes
+  };
+
+  console.log(`Attempting to signout ${username}`);
+
+  try {
+    const result = await cognitoIdentityServiceProvider.adminUpdateUserAttributes(params).promise();
+    console.log(`${username} update`);
+    return {
+      message: `${username} update`,
+    };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
 module.exports = {
   addUserToGroup,
   removeUserFromGroup,
@@ -256,4 +280,5 @@ module.exports = {
   listGroupsForUser,
   listUsersInGroup,
   signUserOut,
+  updateUserAttributes
 };
